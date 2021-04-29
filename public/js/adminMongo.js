@@ -315,7 +315,7 @@ $(document).ready(function(){
                 dataType: 'json',
                 contentType: "application/json",
                 url: $('#app_context').val() + '/config/add_config',
-                data: {"conn_name": $('#new_conf_conn_name').val(), "conn_string": $('#new_conf_conn_string').val(), "editor_val": editor_val}
+                data: JSON.stringify({"conn_name": $('#new_conf_conn_name').val(), "conn_string": $('#new_conf_conn_string').val(), "editor_val": editor_val})
             })
             .done(function(data){
                 show_notification(data.msg, 'success');
