@@ -313,6 +313,7 @@ $(document).ready(function(){
             $.ajax({
                 method: 'POST',
                 dataType: 'json',
+                contentType: "application/json",
                 url: $('#app_context').val() + '/config/add_config',
                 data: {"conn_name": $('#new_conf_conn_name').val(), "conn_string": $('#new_conf_conn_string').val(), "editor_val": editor_val}
             })
