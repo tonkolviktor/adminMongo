@@ -16,7 +16,7 @@ router.post('/config/add_config', function (req, res, next){
 
     // check if name already exists
     if(connection_list !== undefined){
-        if(connection_list[req.body[0]] !== undefined){
+        if(connection_list[req.body.conn_name] !== undefined){
             res.status(400).json({'msg': req.i18n.__('Config error: A connection by that name already exists')});
             return;
         }
@@ -24,28 +24,28 @@ router.post('/config/add_config', function (req, res, next){
 
     // try parse uri string. If pass, add, else throw an error
     try{
-        console.log('Body 0: ' + req.body[0])
-        console.log('Body 1: ' + req.body[1])
-        console.log('Body 2: ' + req.body[2])
+        console.log('Body 0: ' + req.body.conn_name)
+        console.log('Body 1: ' + req.body.conn_string)
+        console.log('Body 2: ' + req.body.editor_val)
         console.log('Req: ', req)
         console.log('Req.body: ', req.body)
-        MongoURI.parse(req.body[1]);
+        MongoURI.parse(req.body.conn_string);
         var options = {};
         try{
-            options = JSON.parse(req.body[2]);
+            options = JSON.parse(req.body.editor_val);
         }catch(err){
             res.status(400).json({'msg': req.i18n.__('Error in connection options') + ': ' + err});
             return;
         }
 
         // try add the connection
-        connPool.addConnection({connName: req.body[0], connString: req.body[1], connOptions: options}, req.app, function (err, data){
+        connPool.addConnection({connName: req.body.conn_name, connString: req.body.conn_string, connOptions: options}, req.app, function (err, data){
             if(err){
                 console.error('DB Connect error: ' + err);
                 res.status(400).json({'msg': req.i18n.__('Config error') + ': ' + err});
             }else{
                 // set the new config
-                nconf.set('connections:' + req.body[0], {'connection_string': req.body[1], 'connection_options': options});
+                nconf.set('connections:' + req.body.conn_name, {'connection_string': req.body.conn_string, 'connection_options': options});
 
                 // save for ron
                 nconf.save(function (err){

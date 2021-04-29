@@ -310,15 +310,11 @@ $(document).ready(function(){
                 editor_val = {};
             }
 
-            var data_obj = {};
-            data_obj[0] = $('#new_conf_conn_name').val();
-            data_obj[1] = $('#new_conf_conn_string').val();
-            data_obj[2] = editor_val;
-
             $.ajax({
                 method: 'POST',
+                dataType: 'json',
                 url: $('#app_context').val() + '/config/add_config',
-                data: data_obj
+                data: {"conn_name": $('#new_conf_conn_name').val(), "conn_string": $('#new_conf_conn_string').val(), "editor_val": editor_val}
             })
             .done(function(data){
                 show_notification(data.msg, 'success');
