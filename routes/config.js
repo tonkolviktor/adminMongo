@@ -27,7 +27,6 @@ router.post('/config/add_config', function (req, res, next){
         console.log('Body 0: ' + req.body.conn_name)
         console.log('Body 1: ' + req.body.conn_string)
         console.log('Body 2: ' + req.body.editor_val)
-        console.log('Req: ', req)
         console.log('Req.body: ', req.body)
         MongoURI.parse(req.body.conn_string);
         var options = {};
