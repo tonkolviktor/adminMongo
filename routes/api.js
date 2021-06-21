@@ -55,6 +55,7 @@ router.post('/api/:conn/:db/:coll/:page', function (req, res, next){
     }
 
     mongo_db.collection(req.params.coll).find(query_obj).limit(limit).skip(skip).toArray(function (err, result){
+        console.log("Result length: " + result.length)
         if(err){
             console.error(err);
             res.status(500).json(err);
@@ -77,8 +78,13 @@ router.post('/api/:conn/:db/:coll/:page', function (req, res, next){
 
                 // get total num docs in query
                 mongo_db.collection(req.params.coll).count(query_obj, function (err, doc_count){
+                    // somehow this limit doe not work
+                    result2 = []
+                    for (let i = 0; i < Math.min(arr.length, limit); i++) {
+                        result2.push(result[i]);
+                    }
                     var return_data = {
-                        data: result,
+                        data: result2,
                         fields: fields,
                         total_docs: doc_count,
                         deleteButton: req.i18n.__('Delete'),
