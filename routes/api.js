@@ -78,7 +78,7 @@ router.post('/api/:conn/:db/:coll/:page', function (req, res, next){
                 // get total num docs in query
                 mongo_db.collection(req.params.coll).count(query_obj, function (err, doc_count){
                     var return_data = {
-                        data: result.slice(0, limit),
+                        data: result,
                         fields: fields,
                         total_docs: doc_count,
                         deleteButton: req.i18n.__('Delete'),
